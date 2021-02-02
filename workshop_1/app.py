@@ -16,21 +16,6 @@ NEWS_URL = "http://newsapi.org/v2/everything?q={0}&from=2021-1-30&sortBy=publish
 
 NEWS_KEY = "b6f0a312be374ff78a43fee6d5b21091"
 
-#COVID_API_TH
-url = requests.get('https://covid19.th-stat.com/api/open/today')
-r = url.json()
-Confirmed = r['Confirmed']
-Recovered = r['Recovered']
-Hospitalized = r['Hospitalized']
-Deaths = r['Deaths']
-result = {
-    'Confirmed' : Confirmed,
-    'Recovered' : Recovered,
-    'Hospitalized' : Hospitalized,
-    'Deaths' : Deaths
-
-
-}
 
 @app.route("/")
 def home():
