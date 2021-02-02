@@ -14,8 +14,21 @@ OPEN_WEATHER_KEY = 'be854a7912507e5dc8701402c6dc7f88'
 
 NEWS_URL = "http://newsapi.org/v2/everything?q={0}&from=2021-1-30&sortBy=publishedAt&apiKey={1}"
 
-NEWS_KEY = "b6f0a312be374ff78a43fee6d5b21091"
+NEWS_KEY = "0be218c476eb455eb3542e8e89f0ce4b"
 
+#COVID_API_TH
+url = requests.get('https://covid19.th-stat.com/api/open/today')
+r = url.json()
+Confirmed = r['Confirmed']
+Recovered = r['Recovered']
+Hospitalized = r['Hospitalized']
+Deaths = r['Deaths']
+result = {
+    'Confirmed' : Confirmed,
+    'Recovered' : Recovered,
+    'Hospitalized' : Hospitalized,
+    'Deaths' : Deaths
+}
 
 @app.route("/")
 def home():
@@ -28,8 +41,8 @@ def home():
 
     return render_template("home.html", weather=weather,result=result,news=news)
 
-def CovidNews(): #ดึงข่าว
-    url = "http://newsapi.org/v2/everything?q=covid&from=2021-01-01&sortBy=publishedAt&apiKey=b6f0a312be374ff78a43fee6d5b21091"
+def CovidNews(): 
+    url = "http://newsapi.org/v2/everything?q=covid&from=2021-02-02&sortBy=publishedAt&apiKey=0be218c476eb455eb3542e8e89f0ce4b"
     data = urlopen(url).read()
     parsed = json.loads(data)
     news = []
@@ -43,7 +56,7 @@ def CovidNews(): #ดึงข่าว
         
     return news
     
-#รับสภาพอากาศ
+
 def get_weather(city,API_KEY):
     city = convert_to_unicode(city)
     url = OPEN_WEATHER_URL.format(city, API_KEY)
@@ -75,7 +88,7 @@ def get_weather(city,API_KEY):
                    }
       
     return weather
-#News page
+
 @app.route('/news')
 def news():
     word = request.args.get('word')
@@ -101,13 +114,13 @@ def get_news(word,NEWS_KEY):
     
     return news
     
-#ถ้าuserรับส่งค่ามาเป็นภาษาอื่นนอกจากอังกฤษ
+
 def convert_to_unicode(txt):
     encode = urllib.parse.quote(txt)
     return encode
     
 
-#about page
+
 @app.route('/about')
 def about():
    return render_template('about.html')
